@@ -39,8 +39,8 @@ class CodexAgent(AgentInstance):
         elif self.model == "standard":
             cmd.extend(["--model", "gpt-5.3-codex"])
             
-        if hasattr(self, "effort"):
-            cmd.extend(["--effort", self.effort])
+        if hasattr(self, "effort") and self.effort:
+            cmd.extend(["-c", f"model_reasoning_effort=\"{self.effort}\""])
             
         for k, v in self.additional_flags.items():
             cmd.extend([f"--{k}", str(v)])
