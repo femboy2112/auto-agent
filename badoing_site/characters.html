@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Meet the legendary characters of The Big Lez Show — Lez, Sassy the Sasquatch, Donnie, Clarence, and more." />
+  <meta property="og:title"       content="The Boys — BADOING BADOING BADOING" />
+  <meta property="og:description" content="Character profiles for The Big Lez Show's iconic cast." />
+  <meta property="og:type"        content="website" />
+  <title>The Boys — BADOING BADOING BADOING</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Characters hero ── */
+    .chars-hero {
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: calc(var(--nav-h) + 3rem) 1.5rem 4rem;
+    }
+    .chars-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      color: var(--text-primary);
+      text-shadow: 0 0 30px rgba(0,229,255,0.55), 0 0 70px rgba(0,229,255,0.22);
+      line-height: 1.1;
+      margin: 0 0 1.2rem;
+      animation: fadeUp 0.7s var(--ease-out) 0.18s both;
+    }
+    .chars-hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+      color: var(--color-magenta);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(255,0,200,0.5);
+      animation: fadeUp 0.7s var(--ease-out) both;
+    }
+
+    /* ── Section label chip (page-local, mirrors about.html) ── */
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-purple);
+      background: rgba(155,0,255,0.1);
+      border: 1px solid rgba(155,0,255,0.25);
+      border-radius: var(--r-full);
+      padding: 0.28rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Scale-in scroll-reveal variant ── */
+    [data-animate="scale-in"] {
+      opacity: 0;
+      transform: scale(0.86) translateY(22px);
+      transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+    }
+    [data-animate="scale-in"].visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transition-delay: 0s; /* clear per-card stagger after reveal so hover is instant */
+    }
+    /* Restore glass-panel hover lift — needs higher specificity than .glass-panel:hover */
+    [data-animate="scale-in"].visible:hover {
+      transform: scale(1.01) translateY(-5px);
+    }
+
+    /* ── Character card grid ── */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .char-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 0 2rem;
+      overflow: hidden;
+    }
+    .char-accent {
+      width: 100%;
+      height: 5px;
+      background: var(--accent, var(--color-purple));
+      box-shadow: 0 0 18px var(--accent, var(--color-purple));
+      margin-bottom: 1.8rem;
+      flex-shrink: 0;
+    }
+    .char-badge {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12), transparent 60%),
+                  rgba(255,255,255,0.04);
+      border: 2.5px solid var(--accent, var(--color-purple));
+      box-shadow: 0 0 22px var(--accent, var(--color-purple)),
+                  inset 0 0 16px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+      transition: transform var(--t-spring), box-shadow var(--t-mid);
+    }
+    .char-card:hover .char-badge {
+      transform: scale(1.1) rotate(-4deg);
+      box-shadow: 0 0 42px var(--accent, var(--color-purple)),
+                  inset 0 0 16px rgba(0,0,0,0.3);
+    }
+    .char-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin: 0 0 0.25rem;
+      text-shadow: 0 0 12px var(--accent, var(--color-purple));
+    }
+    .char-role {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent, var(--color-purple));
+      margin: 0 0 1rem;
+    }
+    .char-desc {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.72;
+      padding: 0 1.2rem;
+      margin: 0 0 1.4rem;
+      flex: 1;
+    }
+    .catchphrase-pill {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      padding: 0.35rem 1.1rem;
+      border-radius: var(--r-full);
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--accent, var(--color-purple));
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      max-width: 90%;
+      letter-spacing: 0.02em;
+    }
+    .badoing-btn {
+      font-size: 0.9rem;
+      padding: 0.5rem 1.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Quiz section ── */
+    .quiz-section { padding: 5rem 0 6rem; }
+    .quiz-card {
+      max-width: 760px;
+      margin: 2.5rem auto 0;
+      padding: 2.5rem;
+    }
+    @media (max-width: 600px) { .quiz-card { padding: 1.5rem 1.2rem; } }
+    .quiz-question { margin-bottom: 2.2rem; }
+    .quiz-q-text {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-primary);
+      margin: 0 0 1rem;
+    }
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .quiz-option { display: inline-flex; align-items: center; cursor: pointer; }
+    .quiz-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .quiz-option-label {
+      display: inline-block;
+      padding: 0.42rem 1.1rem;
+      border-radius: var(--r-full);
+      border: 1.5px solid var(--glass-border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: border-color var(--t-fast), background var(--t-fast),
+                  color var(--t-fast), box-shadow var(--t-fast), transform var(--t-spring);
+      cursor: pointer;
+      user-select: none;
+    }
+    .quiz-option:hover .quiz-option-label {
+      border-color: var(--color-cyan);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+    .quiz-option input[type="radio"]:checked + .quiz-option-label {
+      border-color: var(--color-purple);
+      background: rgba(155,0,255,0.18);
+      color: var(--text-primary);
+      box-shadow: 0 0 12px rgba(155,0,255,0.4);
+      transform: translateY(-1px);
+    }
+    .quiz-option input[type="radio"]:focus-visible + .quiz-option-label {
+      outline: 2px solid var(--color-cyan);
+      outline-offset: 2px;
+    }
+    .quiz-submit-wrap { text-align: center; margin-top: 1.5rem; }
+    .quiz-error {
+      color: var(--color-magenta);
+      font-size: 0.88rem;
+      margin-top: 0.75rem;
+      font-family: var(--font-body);
+      min-height: 1.2em;
+    }
+
+    /* Result card */
+    .quiz-result {
+      max-width: 480px;
+      margin: 2rem auto 0;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      display: none;
+    }
+    .quiz-result.visible {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeUp 0.55s var(--ease-out) both;
+    }
+    .result-emoji {
+      font-size: 4.2rem;
+      line-height: 1;
+      margin-bottom: 0.9rem;
+    }
+    .result-accent-bar {
+      height: 3px;
+      width: 64px;
+      border-radius: var(--r-full);
+      margin: 0 auto 1.1rem;
+    }
+    .result-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      color: var(--text-primary);
+      margin: 0 0 0.4rem;
+    }
+    .result-msg {
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.72;
+      margin: 0 0 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo badoing-trigger" aria-label="Home">BADOING</a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="characters.html">Characters</a></li>
+      </ul>
+      <button class="nav-hamburger nav-toggle" aria-label="Open menu" aria-haspopup="true" type="button">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <nav class="nav-mobile nav-links-mobile nav-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="characters.html">Characters</a>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════ HERO ══════════════════════ -->
+    <section class="chars-hero gradient-bg" id="top" aria-label="Characters of The Big Lez Show">
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+        <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,0.14) 0%,transparent 70%);top:-60px;right:-100px;filter:blur(80px);"></div>
+        <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,0,200,0.15) 0%,transparent 70%);bottom:-50px;left:-80px;filter:blur(70px);"></div>
+        <div style="position:absolute;width:340px;height:340px;background:radial-gradient(circle,rgba(182,255,0,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(60px);"></div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <p class="chars-hero-sub">Characters of The Big Lez Show</p>
+        <h1 class="chars-hero-title">The Boys</h1>
+        <p class="subtitle" style="max-width:580px;margin:0 auto;animation:fadeUp 0.7s var(--ease-out) 0.45s both;">
+          From the suburbs of <em style="color:var(--color-cyan);font-style:normal;font-weight:600;">Dufftown</em>
+          to the outer reaches of the cosmos — these blokes have seen it all
+          and they're still cracking a <strong style="color:var(--color-magenta);font-weight:600;">cold one</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-text">LEZ&nbsp;&bull;&nbsp;SASSY&nbsp;&bull;&nbsp;DONNIE&nbsp;&bull;&nbsp;CLARENCE&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;LEZ&nbsp;&bull;&nbsp;SASSY&nbsp;&bull;&nbsp;DONNIE&nbsp;&bull;&nbsp;CLARENCE&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;</span>
+        <span class="marquee-text">LEZ&nbsp;&bull;&nbsp;SASSY&nbsp;&bull;&nbsp;DONNIE&nbsp;&bull;&nbsp;CLARENCE&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;LEZ&nbsp;&bull;&nbsp;SASSY&nbsp;&bull;&nbsp;DONNIE&nbsp;&bull;&nbsp;CLARENCE&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════ CHARACTER GRID ══════════════════════ -->
+    <section class="section" aria-labelledby="chars-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:3rem;">
+          <span class="section-label animate-in">The Cast</span>
+          <h2 class="section-title animate-in delay-1" id="chars-heading">Meet the Boys</h2>
+          <p class="subtitle animate-in delay-2" style="max-width:560px;margin:0 auto;">
+            From laid-back legends to scheming villains — every character in Dufftown is carrying something.
+            Usually a slab.
+          </p>
+        </div>
+
+        <div class="char-grid">
+
+          <!-- Lez Mackerel -->
+          <article class="char-card glass-panel" data-animate="scale-in" style="transition-delay:0s;">
+            <div class="char-accent" style="--accent: #9b00ff;"></div>
+            <div class="char-badge" style="--accent: #9b00ff;" aria-hidden="true">🧔</div>
+            <h3 class="char-name">Lez Mackerel</h3>
+            <p class="char-role">The Protagonist</p>
+            <p class="char-desc">
+              Leslie "Lez" Mackerel is Dufftown's most legendary bogan — a middle-aged, foul-mouthed,
+              perpetually-stubbie-holding larrikin with a heart of gold buried somewhere beneath
+              several layers of flanno. He's laid-back to the point of horizontal, but somehow ends
+              up at the centre of every surreal catastrophe the universe can throw at him.
+            </p>
+            <span class="catchphrase-pill" style="--accent: #9b00ff; border-color: #9b00ff;">"Noice. Smort."</span>
+            <button class="badoing-btn btn btn-primary badoing-trigger" type="button">Badoing!</button>
+          </article>
+
+          <!-- Sassy the Sasquatch -->
+          <article class="char-card glass-panel" data-animate="scale-in" style="transition-delay:0.08s;">
+            <div class="char-accent" style="--accent: #00e5ff;"></div>
+            <div class="char-badge" style="--accent: #00e5ff;" aria-hidden="true">🦶</div>
+            <h3 class="char-name">Sassy the Sasquatch</h3>
+            <p class="char-role">The Best Mate</p>
+            <p class="char-desc">
+              Sassy is Lez's best friend, housemate, and the creature responsible for one of the
+              internet's most beloved battle cries. Despite being a large, hair-covered cryptid of
+              unknown origin, Sassy fits right into Dufftown life — chilling out, drinking slabs,
+              and letting rip with the signature call that launched a thousand memes.
+            </p>
+            <span class="catchphrase-pill" style="--accent: #00e5ff; border-color: #00e5ff;">"Badoing badoing badoing."</span>
+            <button class="badoing-btn btn btn-primary badoing-trigger" type="button">Badoing!</button>
+          </article>
+
+          <!-- Donnie -->
+          <article class="char-card glass-panel" data-animate="scale-in" style="transition-delay:0.16s;">
+            <div class="char-accent" style="--accent: #ff00c8;"></div>
+            <div class="char-badge" style="--accent: #ff00c8;" aria-hidden="true">😤</div>
+            <h3 class="char-name">Donnie</h3>
+            <p class="char-role">The Villain</p>
+            <p class="char-desc">
+              Donnie is Dufftown's resident antagonist — a greasy, scheming, deeply unpleasant bloke
+              who seems to exist purely to make everyone else's life difficult. He's got the charisma
+              of a kicked bin and the moral compass of a broken crowbar, yet somehow keeps turning up
+              like a bad five-dollar note.
+            </p>
+            <span class="catchphrase-pill" style="--accent: #ff00c8; border-color: #ff00c8;">"Get outta my pub, ya dog!"</span>
+            <button class="badoing-btn btn btn-primary badoing-trigger" type="button">Badoing!</button>
+          </article>
+
+          <!-- Clarence -->
+          <article class="char-card glass-panel" data-animate="scale-in" style="transition-delay:0.24s;">
+            <div class="char-accent" style="--accent: #b6ff00;"></div>
+            <div class="char-badge" style="--accent: #b6ff00;" aria-hidden="true">🌟</div>
+            <h3 class="char-name">Clarence</h3>
+            <p class="char-role">The Mystic Father</p>
+            <p class="char-desc">
+              Clarence is Lez's ancient, otherworldly father — a mystical being of cosmic wisdom who
+              speaks in cryptic pronouncements and appears to have transcended the normal limits of
+              human understanding. He functions as the show's unlikely moral compass, dispensing
+              profound life advice between sips of something deeply mysterious.
+            </p>
+            <span class="catchphrase-pill" style="--accent: #b6ff00; border-color: #b6ff00;">"The cosmos speaks, my son."</span>
+            <button class="badoing-btn btn btn-primary badoing-trigger" type="button">Badoing!</button>
+          </article>
+
+          <!-- Tommy Wiseau (joke entry) -->
+          <article class="char-card glass-panel" data-animate="scale-in" style="transition-delay:0.32s;">
+            <div class="char-accent" style="--accent: #ff6b00;"></div>
+            <div class="char-badge" style="--accent: #ff6b00;" aria-hidden="true">🎬</div>
+            <h3 class="char-name">Tommy Wiseau</h3>
+            <p class="char-role">The Inexplicable Cameo</p>
+            <p class="char-desc">
+              Nobody asked for this. Nobody expected this. Yet here he is — Tommy Wiseau,
+              inexplicably wandering into Dufftown like he owns the place. What is he doing here?
+              Why is he wearing that jacket? These questions will remain forever unanswered.
+              It's <em style="color:var(--color-cyan);font-style:normal;">The Big Lez Show</em>.
+              Just roll with it.
+            </p>
+            <span class="catchphrase-pill" style="--accent: #ff6b00; border-color: #ff6b00;">"Oh hi, Dufftown."</span>
+            <button class="badoing-btn btn btn-primary badoing-trigger" type="button">Badoing!</button>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ QUIZ ══════════════════════ -->
+    <section class="quiz-section" aria-labelledby="quiz-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:0;">
+          <span class="section-label animate-in">Quiz</span>
+          <h2 class="section-title animate-in delay-1" id="quiz-heading">Who's Your Boy?</h2>
+          <p class="subtitle animate-in delay-2" style="max-width:500px;margin:0 auto;">
+            Three questions. One destiny. Find out which Dufftown legend shares your energy.
+          </p>
+        </div>
+
+        <div class="quiz-card glass-panel animate-in delay-3">
+          <form id="quiz-form" novalidate>
+
+            <!-- Question 1 -->
+            <div class="quiz-question">
+              <p class="quiz-q-text" id="q1-label">1. What's your idea of a perfect arvo?</p>
+              <div class="quiz-options" role="radiogroup" aria-labelledby="q1-label">
+                <label class="quiz-option">
+                  <input type="radio" name="q1" value="lez" />
+                  <span class="quiz-option-label">Quiet slab on the couch</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q1" value="sassy" />
+                  <span class="quiz-option-label">Bouncing through the bush</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q1" value="donnie" />
+                  <span class="quiz-option-label">Plotting everyone's downfall</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q1" value="clarence" />
+                  <span class="quiz-option-label">Meditating on the cosmos</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="quiz-question">
+              <p class="quiz-q-text" id="q2-label">2. Things go pear-shaped. What do ya do?</p>
+              <div class="quiz-options" role="radiogroup" aria-labelledby="q2-label">
+                <label class="quiz-option">
+                  <input type="radio" name="q2" value="lez" />
+                  <span class="quiz-option-label">Say "noice" and crack another one</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q2" value="sassy" />
+                  <span class="quiz-option-label">Badoing your way outta there</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q2" value="donnie" />
+                  <span class="quiz-option-label">Blame the nearest person</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q2" value="clarence" />
+                  <span class="quiz-option-label">Consult ancient cosmic wisdom</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="quiz-question" style="margin-bottom:0;">
+              <p class="quiz-q-text" id="q3-label">3. How would your mates describe ya?</p>
+              <div class="quiz-options" role="radiogroup" aria-labelledby="q3-label">
+                <label class="quiz-option">
+                  <input type="radio" name="q3" value="lez" />
+                  <span class="quiz-option-label">Smort. Noice. Dead reliable.</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q3" value="sassy" />
+                  <span class="quiz-option-label">Big energy. Great vibes.</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q3" value="donnie" />
+                  <span class="quiz-option-label">Keep an eye on that one.</span>
+                </label>
+                <label class="quiz-option">
+                  <input type="radio" name="q3" value="clarence" />
+                  <span class="quiz-option-label">Deeply wise. Slightly unsettling.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="quiz-submit-wrap">
+              <button type="submit" class="btn btn-primary" style="font-size:1rem;padding:0.7rem 2.6rem;">
+                Find Out
+              </button>
+              <p class="quiz-error" id="quiz-error" role="alert" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Result card — hidden until quiz submitted -->
+        <div class="quiz-result glass-panel" id="quiz-result" aria-live="polite" aria-atomic="true">
+          <div class="result-emoji" id="result-emoji" aria-hidden="true">🧔</div>
+          <div class="result-accent-bar" id="result-accent-bar" style="background:#9b00ff;box-shadow:0 0 14px #9b00ff;"></div>
+          <h3 class="result-name" id="result-name">Lez Mackerel</h3>
+          <p class="result-msg" id="result-msg"></p>
+          <button class="btn btn-ghost badoing-trigger" type="button" id="quiz-retry">
+            Try Again
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+      <a href="#top" class="back-to-top" aria-label="Back to top">&uarr; Back to Top</a>
+      <div class="footer-logo badoing-trigger" aria-label="Badoing Badoing Badoing">BADOING BADOING BADOING</div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="characters.html">Characters</a>
+      </nav>
+      <p class="footer-copy">
+        &copy; 2024 Badoing Badoing Badoing Fan Site.
+        <span aria-hidden="true"> &bull; </span>
+        Fan tribute to <em>The Big Lez Show</em> by Jarrad Wright. No official affiliation.
+        <br>
+        <span style="font-size:0.72rem;opacity:0.6;">Made with noice and smort.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    (function () {
+      var RESULTS = {
+        lez: {
+          emoji:  '🧔',
+          name:   'Lez Mackerel',
+          accent: '#9b00ff',
+          msg:    "Ya bloody beauty! You're Lez Mackerel — Dufftown's most laid-back legend. Grab a slab, crack a \"noice\", and enjoy the ride. You're smort and you know it."
+        },
+        sassy: {
+          emoji:  '🦶',
+          name:   'Sassy the Sasquatch',
+          accent: '#00e5ff',
+          msg:    "BADOING BADOING BADOING! You're Sassy — loveable, loud, and the best mate anyone could ask for in the outback. Your battle cry echoes across the cosmos."
+        },
+        donnie: {
+          emoji:  '😤',
+          name:   'Donnie',
+          accent: '#ff00c8',
+          msg:    "Crikey. You've got Donnie energy — cunning, shifty, and probably already banned from the local pub. Try not to scheme too hard today, ya dog."
+        },
+        clarence: {
+          emoji:  '🌟',
+          name:   'Clarence',
+          accent: '#b6ff00',
+          msg:    "The cosmos has spoken — you are Clarence, ancient and mystical. Your wisdom flows like a slow, lukewarm river. Enlightening, mate. Deeply enlightening."
+        },
+        tommy: {
+          emoji:  '🎬',
+          name:   'Tommy Wiseau',
+          accent: '#ff6b00',
+          msg:    "Oh hi, Dufftown! Against all odds you got Tommy Wiseau — the greatest accidental cameo in Australian internet history. Nobody saw it coming. Neither did you."
+        }
+      };
+
+      var form     = document.getElementById('quiz-form');
+      var resultEl = document.getElementById('quiz-result');
+      var errEl    = document.getElementById('quiz-error');
+      var retryBtn = document.getElementById('quiz-retry');
+
+      function getAnswer(name) {
+        var el = form.querySelector('input[name="' + name + '"]:checked');
+        return el ? el.value : null;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var a1 = getAnswer('q1');
+        var a2 = getAnswer('q2');
+        var a3 = getAnswer('q3');
+
+        if (!a1 || !a2 || !a3) {
+          errEl.textContent = 'Answer all three questions first, ya dog.';
+          return;
+        }
+        errEl.textContent = '';
+
+        /* Tally votes per character */
+        var tally = { lez: 0, sassy: 0, donnie: 0, clarence: 0 };
+        [a1, a2, a3].forEach(function (v) { tally[v]++; });
+
+        /* Find winner; perfect three-way tie → Tommy Wiseau Easter egg */
+        var winner = null;
+        var top    = 0;
+        var isTie  = false;
+        Object.keys(tally).forEach(function (k) {
+          if (tally[k] > top)          { winner = k; top = tally[k]; isTie = false; }
+          else if (tally[k] === top)   { isTie = true; }
+        });
+        if (isTie && top === 1) { winner = 'tommy'; }
+
+        var r = RESULTS[winner];
+        document.getElementById('result-emoji').textContent = r.emoji;
+        document.getElementById('result-name').textContent  = r.name;
+        document.getElementById('result-msg').textContent   = r.msg;
+        var bar = document.getElementById('result-accent-bar');
+        bar.style.background = r.accent;
+        bar.style.boxShadow  = '0 0 14px ' + r.accent;
+
+        /* Show with animation */
+        resultEl.style.display = 'flex';
+        resultEl.classList.remove('visible');
+        void resultEl.offsetWidth; /* force reflow to restart animation */
+        resultEl.classList.add('visible');
+        resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      retryBtn.addEventListener('click', function () {
+        resultEl.classList.remove('visible');
+        resultEl.style.display = 'none';
+        form.reset();
+        errEl.textContent = '';
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }());
+  </script>
+
+</body>
+</html>

@@ -44,6 +44,11 @@ class MasterWorkflow:
         
         planner = self.agent_class(prompt=planner_prompt, model=self.model, effort="high")
         plan_output = await planner.run_async()
+
+        # Capture session established by planner for reuse across all subsequent calls
+        workflow_session_id = getattr(planner, "session_id", None)
+        if workflow_session_id:
+            logger.info("Workflow session established: %s", workflow_session_id)
         
         # Extract JSON list from plan_output
         tasks: List[str] = []
@@ -75,25 +80,39 @@ class MasterWorkflow:
             
             # Phase A: Tree of Thought (Exploration)
             logger.info("Phase A: Tree of Thought Exploration")
+            # ToT branches run fresh sessions — concurrent --fork-session on the same parent
+            # causes race conditions. They're throwaway explorers anyway.
             tot_branches = [
                 self.agent_class(prompt=step_prompt, model=self.model, effort=self.effort)
                 for _ in range(self.branches)
             ]
-            tot_evaluator = self.agent_class(prompt="", model=self.model, effort="high")
+            # Evaluator is sequential, can safely resume main session
+            eval_kwargs = dict(model=self.model, effort="high")
+            if workflow_session_id:
+                eval_kwargs["session_id"] = workflow_session_id
+            tot_evaluator = self.agent_class(prompt="", **eval_kwargs)
             tot = TreeOfThought(tot_branches, tot_evaluator)
             best_tot_output = await tot.execute()
             
-            # Phase B: Adversarial Review (Refinement)
+            # Phase B: Adversarial Review (Refinement) — resume main workflow session
             logger.info("Phase B: Adversarial Review Refinement")
-            adv_generator = self.agent_class(prompt=step_prompt, model=self.model, effort=self.effort)
-            
+            gen_kwargs = dict(model=self.model, effort=self.effort)
+            critic_kwargs = dict(model=self.model, effort="high")
+            if workflow_session_id:
+                try:
+                    gen_kwargs["session_id"] = workflow_session_id
+                    critic_kwargs["session_id"] = workflow_session_id
+                except Exception:
+                    pass
+            adv_generator = self.agent_class(prompt=step_prompt, **gen_kwargs)
+
             adv_prompt = (
                 f"{step_prompt}\n\n"
                 f"Please refine, finalize, and perfect the following draft implementation. Ensure it meets the highest standards and resolves any bugs:\n"
                 f"{best_tot_output}"
             )
-            
-            adv_critic = self.agent_class(prompt="", model=self.model, effort="high")
+
+            adv_critic = self.agent_class(prompt="", **critic_kwargs)
             
             adv = AdversarialReview(
                 generator_instance=adv_generator,
@@ -104,8 +123,33 @@ class MasterWorkflow:
             
             final_step_output = await adv.execute(adv_prompt)
             
-            logger.info(f"Step {i+1} Completed. Appending to Project Context.")
-            project_context += f"\n--- Step {i+1} Output ---\n{final_step_output}\n"
+            logger.info(f"Step {i+1} Completed. Summarizing for project context.")
+            # Summarize the step output to keep project_context compact.
+            # Passing full HTML/code outputs into every subsequent prompt balloons to 50KB+.
+            summarize_kwargs = dict(model=self.model, effort="low")
+            if workflow_session_id:
+                try:
+                    summarize_kwargs["session_id"] = workflow_session_id
+                except Exception:
+                    pass
+            summarizer = self.agent_class(
+                prompt=(
+                    f"In 3-5 bullet points, summarize what was just implemented in Step {i+1}.\n"
+                    f"Focus on: what files were created/modified, key design decisions, and any\n"
+                    f"CSS classes, JS functions, or IDs that other steps should know about.\n"
+                    f"Be concise. Do NOT reproduce the full code.\n\nStep output:\n{final_step_output[:8000]}"
+                ),
+                **summarize_kwargs
+            )
+            try:
+                step_summary = await summarizer.run_async()
+                # Update workflow session from summarizer if we don't have one yet
+                if not workflow_session_id:
+                    workflow_session_id = getattr(summarizer, "session_id", None)
+            except Exception as e:
+                logger.warning(f"Summarizer failed ({e}), falling back to task description.")
+                step_summary = f"Completed: {task[:300]}"
+            project_context += f"\n--- Step {i+1} Summary ---\n{step_summary}\n"
             
         logger.info("Master Workflow Complete!")
         return project_context

@@ -13,11 +13,14 @@ class AgentInstance(ABC):
         self,
         prompt: str,
         model: Optional[str] = None,
-        additional_flags: Optional[Dict[str, str]] = None
+        additional_flags: Optional[Dict[str, str]] = None,
+        **kwargs
     ):
         self.prompt = prompt
         self.model = model
         self.additional_flags = additional_flags or {}
+        for k, v in kwargs.items():
+            setattr(self, k, v)
         
         self.stdout = ""
         self.stderr = ""

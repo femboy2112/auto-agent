@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Learn the origin of 'badoing badoing badoing' — the legendary meme from The Big Lez Show, Australia's most unhinged animated web series." />
+  <meta property="og:title"       content="About the Meme — BADOING BADOING BADOING" />
+  <meta property="og:description" content="The Big Lez Show, Jarrad Wright, Sassy the Sasquatch, and the cry that broke the internet." />
+  <meta property="og:type"        content="website" />
+  <title>About the Meme — BADOING BADOING BADOING</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── About-page hero ── */
+    .about-hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: calc(var(--nav-h) + 3rem) 1.5rem 4rem;
+    }
+    .about-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      color: var(--text-primary);
+      text-shadow: 0 0 30px rgba(155,0,255,0.55), 0 0 70px rgba(155,0,255,0.22);
+      line-height: 1.1;
+      margin: 0 0 1.2rem;
+      animation: fadeUp 0.7s var(--ease-out) 0.18s both; /* slightly after the label above it */
+    }
+    .about-hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+      color: var(--color-cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(0,229,255,0.5);
+      animation: fadeUp 0.7s var(--ease-out) both; /* label fades in first */
+    }
+
+    /* ── Two-column intro ── */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    .intro-text p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.78;
+      margin-bottom: 1.1rem;
+    }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-text strong { color: var(--color-magenta); font-weight: 600; }
+    .intro-text em { color: var(--color-lime); font-style: normal; }
+    .intro-deco {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.4rem;
+    }
+    .deco-glyph {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 7rem);
+      line-height: 1;
+      background: var(--grad-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(155,0,255,0.45));
+      animation: floatY 4s ease-in-out infinite;
+    }
+    .deco-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+    .deco-pill {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.38rem 1rem;
+      border-radius: var(--r-full);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      background: var(--glass-bg-light);
+      backdrop-filter: blur(10px);
+      color: var(--text-secondary);
+      transition: border-color var(--t-mid), color var(--t-mid), box-shadow var(--t-mid);
+    }
+    .deco-pill:hover {
+      border-color: var(--color-purple);
+      color: var(--color-purple);
+      box-shadow: var(--glow-purple);
+    }
+    .deco-pill.cyan:hover  { border-color: var(--color-cyan);    color: var(--color-cyan);    box-shadow: var(--glow-cyan); }
+    .deco-pill.lime:hover  { border-color: var(--color-lime);    color: var(--color-lime);    box-shadow: var(--glow-lime); }
+    .deco-pill.magenta:hover { border-color: var(--color-magenta); color: var(--color-magenta); box-shadow: var(--glow-magenta); }
+
+    /* ── Timeline ── */
+    .timeline-section { padding: 5rem 0; }
+    .timeline {
+      position: relative;
+      max-width: 860px;
+      margin: 3rem auto 0;
+      padding: 0 1rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--color-purple) 8%, var(--color-cyan) 50%, var(--color-magenta) 92%, transparent);
+      transform: translateX(-50%);
+    }
+    @media (max-width: 640px) {
+      .timeline::before { left: 18px; transform: none; }
+    }
+    .timeline-item {
+      position: relative;
+      width: calc(50% - 2.5rem);
+      margin-bottom: 3rem;
+    }
+    .timeline-item:nth-child(odd) {
+      margin-left: 0;
+      text-align: right;
+    }
+    .timeline-item:nth-child(even) {
+      margin-left: calc(50% + 2.5rem);
+      text-align: left;
+    }
+    /* Dot */
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      top: 1.1rem;
+      background: var(--color-cyan);
+      border: 2.5px solid var(--bg-void);
+      box-shadow: 0 0 10px var(--color-cyan), 0 0 24px rgba(0,229,255,0.4);
+    }
+    .timeline-item:nth-child(odd)::after  { right: -3.1rem; }
+    .timeline-item:nth-child(even)::after { left:  -3.1rem; }
+    @media (max-width: 640px) {
+      .timeline-item,
+      .timeline-item:nth-child(odd),
+      .timeline-item:nth-child(even) {
+        width: calc(100% - 3.5rem);
+        margin-left: 3.5rem;
+        text-align: left;
+      }
+      .timeline-item::after,
+      .timeline-item:nth-child(odd)::after,
+      .timeline-item:nth-child(even)::after {
+        left: -2.65rem;
+        right: auto;
+      }
+    }
+    .timeline-card {
+      background: var(--glass-bg-light);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      border-radius: var(--r-md);
+      padding: 1.2rem 1.4rem;
+      transition: transform var(--t-mid), box-shadow var(--t-mid), border-color var(--t-mid);
+    }
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-purple);
+      box-shadow: var(--shadow-lg);
+    }
+    .timeline-year {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      color: var(--color-magenta);
+      text-shadow: 0 0 10px rgba(255,0,200,0.5);
+      margin-bottom: 0.3rem;
+    }
+    .timeline-heading {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+    .timeline-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Quote carousel ── */
+    .carousel-section { padding: 5rem 0; }
+    .quote-carousel {
+      position: relative;
+      max-width: 780px;
+      margin: 2.5rem auto 0;
+    }
+    .carousel-track {
+      background: var(--glass-bg-mid);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      border-radius: var(--r-lg);
+      padding: 3rem 3.5rem;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      transition: box-shadow var(--t-mid);
+    }
+    @media (max-width: 600px) { .carousel-track { padding: 2rem 1.5rem; } }
+    .carousel-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      color: var(--color-cyan);
+      text-shadow: 0 0 16px rgba(0,229,255,0.55), 0 0 40px rgba(0,229,255,0.22);
+      line-height: 1.35;
+      margin: 0 0 1rem;
+      transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+    }
+    .carousel-quote.exit  { opacity: 0; transform: translateY(-12px); }
+    .carousel-quote.enter { opacity: 0; transform: translateY(12px);  }
+    .carousel-attr {
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+    }
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.4rem;
+      margin-top: 1.8rem;
+    }
+    .carousel-btn {
+      background: var(--glass-bg-light);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--r-full);
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      transition: background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-spring);
+    }
+    .carousel-btn:hover {
+      background: rgba(155,0,255,0.18);
+      border-color: var(--color-purple);
+      box-shadow: var(--glow-purple);
+      transform: scale(1.08);
+    }
+    .carousel-btn:active { transform: scale(0.96); }
+    .carousel-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--glass-border);
+      border: none;
+      cursor: pointer;
+      transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+      padding: 0;
+    }
+    .carousel-dot.active {
+      background: var(--color-purple);
+      box-shadow: 0 0 8px var(--color-purple);
+      transform: scale(1.3);
+    }
+
+    /* ── Video placeholder ── */
+    .video-section { padding: 4rem 0 5rem; }
+    .video-placeholder {
+      position: relative;
+      max-width: 720px;
+      margin: 2.5rem auto 0;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: linear-gradient(145deg, rgba(155,0,255,0.12), rgba(0,229,255,0.07));
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.4rem;
+      cursor: pointer;
+      transition: border-color var(--t-mid), box-shadow var(--t-mid);
+    }
+    .video-placeholder:hover {
+      border-color: var(--color-magenta);
+      box-shadow: 0 0 40px rgba(255,0,200,0.3), var(--shadow-lg);
+    }
+    .video-placeholder:hover .play-btn { transform: scale(1.12); }
+    /* Fake scan lines */
+    .video-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.07) 3px,
+        rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+    }
+    .play-btn {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--t-spring), background var(--t-mid);
+      position: relative;
+      z-index: 1;
+    }
+    .play-btn:hover { background: rgba(155,0,255,0.25); }
+    .play-btn svg { margin-left: 5px; }
+    .video-caption {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+      position: relative;
+      z-index: 1;
+    }
+    .video-caption strong { color: var(--color-lime); }
+
+    /* Misc */
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-purple);
+      background: rgba(155,0,255,0.1);
+      border: 1px solid rgba(155,0,255,0.25);
+      border-radius: var(--r-full);
+      padding: 0.28rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo badoing-trigger" aria-label="Home">BADOING</a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="characters.html">Characters</a></li>
+      </ul>
+      <button class="nav-hamburger nav-toggle" aria-label="Open menu" aria-haspopup="true" type="button">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <nav class="nav-mobile nav-links-mobile nav-menu" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="characters.html">Characters</a>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════ HERO ══════════════════════ -->
+    <section class="about-hero gradient-bg" id="top" aria-label="About the Meme">
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+        <div style="position:absolute;width:520px;height:520px;background:radial-gradient(circle,rgba(0,229,255,0.15) 0%,transparent 70%);top:-80px;right:-130px;filter:blur(80px);"></div>
+        <div style="position:absolute;width:420px;height:420px;background:radial-gradient(circle,rgba(155,0,255,0.18) 0%,transparent 70%);bottom:-60px;left:-100px;filter:blur(70px);"></div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <p class="about-hero-sub">The Big Lez Show</p>
+        <h1 class="about-hero-title">About the Meme</h1>
+        <p class="subtitle" style="max-width:600px;margin:0 auto;animation:fadeUp 0.7s var(--ease-out) 0.45s both;">
+          The origin of the <em style="color:var(--color-magenta);font-style:normal;font-weight:600;">badoing</em>
+          — from a low-budget Flash animation to a cornerstone of
+          <strong style="color:var(--color-lime);font-weight:600;">Australian internet culture</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-text">NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;YA BLOODY BEAUTY&nbsp;&bull;&nbsp;CARN&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;YA BLOODY BEAUTY&nbsp;&bull;&nbsp;CARN&nbsp;&bull;&nbsp;</span>
+        <span class="marquee-text">NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;YA BLOODY BEAUTY&nbsp;&bull;&nbsp;CARN&nbsp;&bull;&nbsp;NOICE&nbsp;&bull;&nbsp;SMORT&nbsp;&bull;&nbsp;BADOING&nbsp;&bull;&nbsp;YA BLOODY BEAUTY&nbsp;&bull;&nbsp;CARN&nbsp;&bull;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════ INTRO ══════════════════════ -->
+    <section class="section" aria-labelledby="intro-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:3rem;">
+          <span class="section-label animate-in">Origins</span>
+          <h2 class="section-title animate-in delay-1" id="intro-heading">The Big Lez Show</h2>
+        </div>
+
+        <div class="glass-panel animate-in delay-2">
+          <div class="intro-grid">
+
+            <div class="intro-text">
+              <p>
+                <strong>The Big Lez Show</strong> is an Australian adult animated web series created by
+                <em>Jarrad Wright</em>, who voices, animates, and writes the entire series himself.
+                It ran from <strong>2012 to 2019</strong>, producing five series plus specials, and it
+                did all of this on a budget that could generously be described as "basically nothing."
+              </p>
+              <p>
+                The series follows Leslie "Lez" Mackerel — a foul-mouthed, ageing bogan in the fictional
+                town of <em>Dufftown</em> — and his rotating cast of deadbeat mates. The animation is
+                deliberately lo-fi, the humour is relentlessly surreal, and the voice acting sounds like
+                it was recorded in a garden shed at 2am on a Tuesday. Which, reportedly, it was.
+              </p>
+              <p>
+                Despite (or because of) all this, the show developed a <strong>fiercely loyal cult following</strong>
+                across Australia and beyond. Its characters speak in an exaggerated Australian vernacular that
+                somehow became <em>universally quotable</em>, transcending the show itself to live on as memes,
+                merch, and endless forum threads.
+              </p>
+              <p>
+                "Badoing badoing badoing" — the battle cry of <strong>Sassy the Sasquatch</strong> — is the
+                show's most iconic export. Three words, zero context required, infinite comedic energy.
+                <em>Ya bloody beauty.</em>
+              </p>
+            </div>
+
+            <div class="intro-deco" aria-hidden="true">
+              <div class="deco-glyph badoing-trigger">BADOING</div>
+              <div class="deco-pills">
+                <span class="deco-pill">2012–2019</span>
+                <span class="deco-pill cyan">Australian</span>
+                <span class="deco-pill magenta">Cult Classic</span>
+                <span class="deco-pill lime">Lo-fi Surreal</span>
+                <span class="deco-pill">5 Series</span>
+                <span class="deco-pill cyan">Jarrad Wright</span>
+                <span class="deco-pill magenta">Indie Animation</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ TIMELINE ══════════════════════ -->
+    <section class="timeline-section" aria-labelledby="timeline-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:0.5rem;">
+          <span class="section-label animate-in">History</span>
+          <h2 class="section-title animate-in delay-1" id="timeline-heading">The Big Lez Timeline</h2>
+          <p class="subtitle animate-in delay-2" style="max-width:560px;margin:0 auto;">From shed to legend — key milestones in the badoing journey.</p>
+        </div>
+
+        <div class="timeline" role="list">
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year">2012</div>
+              <div class="timeline-heading">The Shed Opens</div>
+              <p class="timeline-body">
+                Jarrad Wright uploads the first episode of <em>The Big Lez Show</em> to YouTube. Lez Mackerel,
+                Choomah Island, and an immediately iconic bogan aesthetic land in front of a very confused internet.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year">2013–2014</div>
+              <div class="timeline-heading">Sassy Enters the Scene</div>
+              <p class="timeline-body">
+                Sassy the Sasquatch is introduced and immediately steals the entire show.
+                His debut badoing utterance reverberates through the lounge rooms of Australia and
+                begins its slow, unstoppable migration to the internet at large.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year" style="color:var(--color-cyan);">2015–2016</div>
+              <div class="timeline-heading">Viral Badoing Moment</div>
+              <p class="timeline-body">
+                Clips of Sassy's "badoing badoing badoing" begin circulating on Reddit, Facebook groups,
+                and Australian meme pages. The phrase detaches from its source material and becomes
+                a universal reaction to chaos, excitement, or just general vibes.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year" style="color:var(--color-lime);">2017</div>
+              <div class="timeline-heading">The Choomah War</div>
+              <p class="timeline-body">
+                Series 4 delivers the Choomah War arc — a full escalation into surreal cosmic horror
+                lore that somehow makes Dufftown feel like genuine high fantasy. The fandom explodes.
+                Badoing achieves peak cultural saturation.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year" style="color:var(--color-magenta);">2019</div>
+              <div class="timeline-heading">The Finale</div>
+              <p class="timeline-body">
+                The Big Lez Show concludes with its fifth and final series. Wright ends the story on
+                his own terms. Fans mourn. The meme lives on. Sassy's big feet continue to stomp
+                through the collective consciousness of Australian internet culture, forever.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" data-animate="fade-up" role="listitem">
+            <div class="timeline-card">
+              <div class="timeline-year">Today</div>
+              <div class="timeline-heading">The Legend Endures</div>
+              <p class="timeline-body">
+                Years later, "badoing" still appears in comment sections, Discord servers, and group chats
+                without any need for explanation. The highest honour a meme can achieve. Fair dinkum.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ QUOTE CAROUSEL ══════════════════════ -->
+    <section class="carousel-section" aria-labelledby="quotes-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:0.5rem;">
+          <span class="section-label animate-in">Wisdom</span>
+          <h2 class="section-title animate-in delay-1" id="quotes-heading">Words of the Legend</h2>
+          <p class="subtitle animate-in delay-2" style="max-width:520px;margin:0 auto;">Truly the great philosophy of our time.</p>
+        </div>
+
+        <div class="quote-carousel animate-in delay-2" data-carousel aria-live="polite">
+          <div class="carousel-track glass-panel" style="padding:3rem 3.5rem;">
+            <blockquote class="carousel-quote" id="carousel-quote" aria-live="polite"></blockquote>
+            <p class="carousel-attr" id="carousel-attr"></p>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn" id="carousel-prev" aria-label="Previous quote">&#8592;</button>
+            <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Quote navigation"></div>
+            <button class="carousel-btn" id="carousel-next" aria-label="Next quote">&#8594;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ VIDEO PLACEHOLDER ══════════════════════ -->
+    <section class="video-section" aria-labelledby="video-heading">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:0.5rem;">
+          <span class="section-label animate-in">Watch</span>
+          <h2 class="section-title animate-in delay-1" id="video-heading">See it for Yourself</h2>
+          <p class="subtitle animate-in delay-2" style="max-width:520px;margin:0 auto;">
+            No description does it justice. You've got to witness the badoing.
+          </p>
+        </div>
+
+        <div class="video-placeholder animate-in delay-2" role="img" aria-label="Video placeholder — watch The Big Lez Show on YouTube">
+          <div class="play-btn" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="8,4 24,14 8,24" fill="rgba(255,255,255,0.9)"/>
+            </svg>
+          </div>
+          <p class="video-caption">
+            <strong>Watch on YouTube</strong> — The Big Lez Show
+          </p>
+          <p style="font-size:0.8rem;color:var(--text-muted);position:relative;z-index:1;letter-spacing:0.04em;">
+            Search "The Big Lez Show" on YouTube &bull; Created by Jarrad Wright
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+      <a href="#top" class="back-to-top" aria-label="Back to top">&uarr; Back to Top</a>
+      <div class="footer-logo badoing-trigger" aria-label="Badoing Badoing Badoing">BADOING BADOING BADOING</div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="characters.html">Characters</a>
+      </nav>
+      <p class="footer-copy">
+        &copy; 2024 Badoing Badoing Badoing Fan Site.
+        <span aria-hidden="true"> &bull; </span>
+        Fan tribute to <em>The Big Lez Show</em> by Jarrad Wright. No official affiliation.
+        <br>
+        <span style="font-size:0.72rem;opacity:0.6;">Made with noice and smort.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    (function () {
+      const quotes = [
+        {
+          text: "Badoing badoing badoing.",
+          attr: "— Sassy the Sasquatch"
+        },
+        {
+          text: "Noice. Smort.",
+          attr: "— Lez Mackerel, on most things"
+        },
+        {
+          text: "Ya see, I'm not just a legend. I'm THE legend. The big one.",
+          attr: "— Lez Mackerel"
+        },
+        {
+          text: "Carn! Ya bloody beauty!",
+          attr: "— Everyone in Dufftown, constantly"
+        }
+      ];
+
+      let current = 0;
+      const quoteEl = document.getElementById('carousel-quote');
+      const attrEl  = document.getElementById('carousel-attr');
+      const dotsEl  = document.getElementById('carousel-dots');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+
+      function buildDots() {
+        dotsEl.innerHTML = '';
+        quotes.forEach(function (_, i) {
+          const btn = document.createElement('button');
+          btn.className = 'carousel-dot' + (i === current ? ' active' : '');
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', i === current ? 'true' : 'false');
+          btn.setAttribute('aria-label', 'Quote ' + (i + 1));
+          btn.addEventListener('click', function () { goTo(i); });
+          dotsEl.appendChild(btn);
+        });
+      }
+
+      function updateDots() {
+        const dots = dotsEl.querySelectorAll('.carousel-dot');
+        dots.forEach(function (d, i) {
+          d.classList.toggle('active', i === current);
+          d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+        });
+      }
+
+      function goTo(index, dir) {
+        if (index === current) return;
+        const q = quotes[index];
+        quoteEl.classList.add('exit');
+
+        setTimeout(function () {
+          quoteEl.textContent = '“' + q.text + '”';
+          attrEl.textContent  = q.attr;
+          current = index;
+          updateDots();
+          quoteEl.classList.remove('exit');
+          quoteEl.classList.add('enter');
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              quoteEl.classList.remove('enter');
+            });
+          });
+        }, 360);
+      }
+
+      function init() {
+        if (!quoteEl || !attrEl || !dotsEl) return;
+        quoteEl.textContent = '“' + quotes[0].text + '”';
+        attrEl.textContent  = quotes[0].attr;
+        buildDots();
+
+        prevBtn.addEventListener('click', function () {
+          goTo((current - 1 + quotes.length) % quotes.length);
+        });
+        nextBtn.addEventListener('click', function () {
+          goTo((current + 1) % quotes.length);
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft')  prevBtn.click();
+          if (e.key === 'ArrowRight') nextBtn.click();
+        });
+
+        /* Auto-advance every 6s, pause when tab is hidden */
+        var timer = setInterval(function () {
+          goTo((current + 1) % quotes.length);
+        }, 6000);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) { clearInterval(timer); }
+          else { timer = setInterval(function () { goTo((current + 1) % quotes.length); }, 6000); }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    }());
+  </script>
+
+</body>
+</html>
