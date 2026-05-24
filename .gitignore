@@ -1,2 +1,4 @@
 .antigravitycli/
 .gemini/
+__pycache__/
+*.pyc

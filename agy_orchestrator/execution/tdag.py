@@ -1,21 +1,21 @@
 import asyncio
 import logging
 from typing import Dict, List, Optional
-from agy_orchestrator.core.instance import AgyInstance
+from agy_orchestrator.core.agent import AgentInstance
 
 logger = logging.getLogger(__name__)
 
 class TaskDAG:
     """
-    Executes a Directed Acyclic Graph of AgyInstances.
+    Executes a Directed Acyclic Graph of AgentInstances.
     Nodes run concurrently, but wait for their specified dependencies to complete.
     """
     def __init__(self):
-        self.nodes: Dict[str, AgyInstance] = {}
+        self.nodes: Dict[str, AgentInstance] = {}
         self.dependencies: Dict[str, List[str]] = {}
         self.tasks: Dict[str, asyncio.Task] = {}
         
-    def add_node(self, name: str, instance: AgyInstance, deps: Optional[List[str]] = None):
+    def add_node(self, name: str, instance: AgentInstance, deps: Optional[List[str]] = None):
         if name in self.nodes:
             raise ValueError(f"Node {name} already exists.")
         self.nodes[name] = instance

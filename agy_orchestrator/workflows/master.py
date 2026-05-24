@@ -2,7 +2,8 @@ import logging
 import json
 from typing import Optional, List
 
-from agy_orchestrator.core.instance import AgyInstance
+from agy_orchestrator.core.agents.agy_agent import AgyAgent
+from agy_orchestrator.core.agent import AgentInstance
 from agy_orchestrator.execution.verifier import QualityVerifier
 from agy_orchestrator.workflows.adversarial import AdversarialReview
 from agy_orchestrator.workflows.tree_of_thought import TreeOfThought
@@ -20,13 +21,15 @@ class MasterWorkflow:
         effort: str,
         branches: int = 3,
         max_iterations: int = 5,
-        verifier: Optional[QualityVerifier] = None
+        verifier: Optional[QualityVerifier] = None,
+        agent_class=AgyAgent
     ):
         self.model = model
         self.effort = effort
         self.branches = branches
         self.max_iterations = max_iterations
         self.verifier = verifier
+        self.agent_class = agent_class
 
     async def execute(self, initial_prompt: str) -> str:
         logger.info("Starting Master Workflow Planning Phase...")
@@ -39,7 +42,7 @@ class MasterWorkflow:
             f"Project Request:\n{initial_prompt}"
         )
         
-        planner = AgyInstance(prompt=planner_prompt, model=self.model, effort="high")
+        planner = self.agent_class(prompt=planner_prompt, model=self.model, effort="high")
         plan_output = await planner.run_async()
         
         # Extract JSON list from plan_output
@@ -73,16 +76,16 @@ class MasterWorkflow:
             # Phase A: Tree of Thought (Exploration)
             logger.info("Phase A: Tree of Thought Exploration")
             tot_branches = [
-                AgyInstance(prompt=step_prompt, model=self.model, effort=self.effort)
+                self.agent_class(prompt=step_prompt, model=self.model, effort=self.effort)
                 for _ in range(self.branches)
             ]
-            tot_evaluator = AgyInstance(prompt="", model=self.model, effort="high")
+            tot_evaluator = self.agent_class(prompt="", model=self.model, effort="high")
             tot = TreeOfThought(tot_branches, tot_evaluator)
             best_tot_output = await tot.execute()
             
             # Phase B: Adversarial Review (Refinement)
             logger.info("Phase B: Adversarial Review Refinement")
-            adv_generator = AgyInstance(prompt=step_prompt, model=self.model, effort=self.effort)
+            adv_generator = self.agent_class(prompt=step_prompt, model=self.model, effort=self.effort)
             
             adv_prompt = (
                 f"{step_prompt}\n\n"
@@ -90,7 +93,7 @@ class MasterWorkflow:
                 f"{best_tot_output}"
             )
             
-            adv_critic = AgyInstance(prompt="", model=self.model, effort="high")
+            adv_critic = self.agent_class(prompt="", model=self.model, effort="high")
             
             adv = AdversarialReview(
                 generator_instance=adv_generator,

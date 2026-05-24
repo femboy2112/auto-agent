@@ -1,6 +1,6 @@
 import logging
 from typing import Optional
-from agy_orchestrator.core.instance import AgyInstance
+from agy_orchestrator.core.agent import AgentInstance
 from agy_orchestrator.execution.verifier import QualityVerifier
 
 logger = logging.getLogger(__name__)
@@ -13,8 +13,8 @@ class AdversarialReview:
     """
     def __init__(
         self,
-        generator_instance: AgyInstance,
-        critic_instance: AgyInstance,
+        generator_instance: AgentInstance,
+        critic_instance: AgentInstance,
         verifier: Optional[QualityVerifier] = None,
         max_iterations: int = 5
     ):

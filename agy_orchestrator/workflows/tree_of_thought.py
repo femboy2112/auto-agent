@@ -1,7 +1,7 @@
 import logging
 import asyncio
 from typing import List, Tuple
-from agy_orchestrator.core.instance import AgyInstance
+from agy_orchestrator.core.agent import AgentInstance
 from agy_orchestrator.execution.pipeline import ParallelSwarm
 
 logger = logging.getLogger(__name__)
@@ -12,7 +12,7 @@ class TreeOfThought:
     Generates multiple independent solution paths and uses an Evaluator
     instance to score and select the best path.
     """
-    def __init__(self, branch_instances: List[AgyInstance], evaluator_instance: AgyInstance):
+    def __init__(self, branch_instances: List[AgentInstance], evaluator_instance: AgentInstance):
         self.branch_instances = branch_instances
         self.evaluator = evaluator_instance
         

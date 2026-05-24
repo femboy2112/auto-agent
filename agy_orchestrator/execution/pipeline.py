@@ -1,13 +1,13 @@
 import asyncio
 from typing import List, Optional
-from agy_orchestrator.core.instance import AgyInstance
+from agy_orchestrator.core.agent import AgentInstance
 
 class LinearPipeline:
     """
-    Executes a sequence of AgyInstances, piping the stdout of one 
+    Executes a sequence of AgentInstances, piping the stdout of one 
     into the stdin (as additional prompt context) of the next.
     """
-    def __init__(self, instances: List[AgyInstance]):
+    def __init__(self, instances: List[AgentInstance]):
         self.instances = instances
         
     async def execute(self, initial_input: Optional[str] = None) -> str:
@@ -18,10 +18,10 @@ class LinearPipeline:
 
 class ParallelSwarm:
     """
-    Executes multiple AgyInstances concurrently. Useful for exploring 
+    Executes multiple AgentInstances concurrently. Useful for exploring 
     multiple paths (like in Tree of Thought) or handling chunked tasks.
     """
-    def __init__(self, instances: List[AgyInstance]):
+    def __init__(self, instances: List[AgentInstance]):
         self.instances = instances
         
     async def execute(self, common_input: Optional[str] = None) -> List[str]:
